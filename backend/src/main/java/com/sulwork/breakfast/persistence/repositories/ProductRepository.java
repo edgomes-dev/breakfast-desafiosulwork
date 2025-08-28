@@ -26,6 +26,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "SELECT * FROM products WHERE id = :id", nativeQuery = true)
     Optional<Product> findByIdProduct(Long id);
 
+    @Query(value = "SELECT * FROM products WHERE name = :name", nativeQuery = true)
+    Optional<Product> findByNameProduct(String name);
+
     @Transactional
     @Modifying
     @Query(value = "UPDATE products SET name = :name WHERE id = :id", nativeQuery = true)

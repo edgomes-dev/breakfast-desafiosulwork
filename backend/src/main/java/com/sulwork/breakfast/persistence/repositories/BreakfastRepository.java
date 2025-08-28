@@ -27,6 +27,9 @@ public interface BreakfastRepository extends JpaRepository<Breakfast, Long> {
     @Query(value = "SELECT * FROM breakfast WHERE id = :id", nativeQuery = true)
     Optional<Breakfast> findByIdBreakfast(Long id);
 
+    @Query(value = "SELECT * FROM breakfast WHERE date = :date", nativeQuery = true)
+    Optional<Breakfast> findByDateBreakfast(LocalDate date);
+
     @Transactional
     @Modifying
     @Query(value = "UPDATE breakfast SET date = :date WHERE id = :id", nativeQuery = true)
