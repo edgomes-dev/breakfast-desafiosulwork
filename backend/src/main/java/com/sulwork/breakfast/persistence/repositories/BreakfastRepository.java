@@ -18,26 +18,26 @@ public interface BreakfastRepository extends JpaRepository<Breakfast, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO breakfast (date) VALUES (:date)", nativeQuery = true)
+    @Query(value = "INSERT INTO breakfasts (date) VALUES (:date)", nativeQuery = true)
     void createBreakfast(LocalDate date);
 
-    @Query(value = "SELECT * FROM breakfast", nativeQuery = true)
+    @Query(value = "SELECT * FROM breakfasts", nativeQuery = true)
     List<Breakfast> findAllBreakfasts();
 
-    @Query(value = "SELECT * FROM breakfast WHERE id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM breakfasts WHERE id = :id", nativeQuery = true)
     Optional<Breakfast> findByIdBreakfast(Long id);
 
-    @Query(value = "SELECT * FROM breakfast WHERE date = :date", nativeQuery = true)
+    @Query(value = "SELECT * FROM breakfasts WHERE date = :date", nativeQuery = true)
     Optional<Breakfast> findByDateBreakfast(LocalDate date);
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE breakfast SET date = :date WHERE id = :id", nativeQuery = true)
+    @Query(value = "UPDATE breakfasts SET date = :date WHERE id = :id", nativeQuery = true)
     void updateBreakfast(Long id, LocalDate date);
 
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM breakfast WHERE id = :id", nativeQuery = true)
+    @Query(value = "DELETE FROM breakfasts WHERE id = :id", nativeQuery = true)
     void deleteBreakfast(Long id);
 
 }

@@ -1,5 +1,6 @@
 package com.sulwork.breakfast.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.sulwork.breakfast.dtos.BreakfastRequestDTO;
@@ -12,6 +13,8 @@ public interface BreakfastService {
     List<BreakfastResponseDTO> findAll();
 
     BreakfastResponseDTO findById(Long id);
+
+    BreakfastResponseDTO findByDate(LocalDate date);
 
     BreakfastResponseDTO update(Long id, BreakfastRequestDTO dto);
 

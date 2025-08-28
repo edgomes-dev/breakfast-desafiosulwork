@@ -60,6 +60,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductResponseDTO findByName(String name) {
+
+        Product product = repository.findByNameProduct(name)
+                .orElseThrow(() -> new NotFoundException("Produto não encontrado!"));
+
+        return ProductMapper.toDto(product);
+
+    }
+
+    @Override
     public ProductResponseDTO update(Long id, ProductRequestDTO dto) {
 
         Product existProduct = repository.findByIdProduct(id)
@@ -75,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
         repository.updateProduct(id, dto.getName());
 
         Product product = repository.findByIdProduct(id)
-                .orElseThrow(() -> new NotFoundException("Falha ao recuperar usuário!"));
+                .orElseThrow(() -> new NotFoundException("Falha ao recuperar Produto!"));
 
         return ProductMapper.toDto(product);
 
@@ -85,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) {
 
         if (repository.findByIdProduct(id).isEmpty()) {
-            throw new NotFoundException("Usuário não encontrado!");
+            throw new NotFoundException("Produto não encontrado!");
         }
 
         repository.deleteProduct(id);

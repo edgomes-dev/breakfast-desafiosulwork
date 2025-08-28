@@ -1,5 +1,6 @@
 package com.sulwork.breakfast.services.impls;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ public class BreakfastServiceImpl implements BreakfastService {
         repository.createBreakfast(dto.getDate());
 
         Breakfast savedBreakfast = repository.findByDateBreakfast(dto.getDate())
-                .orElseThrow(() -> new RuntimeException("Falha ao recuperar usuário"));
+                .orElseThrow(() -> new RuntimeException("Falha ao recuperar evento"));
 
         return BreakfastMapper.toDto(savedBreakfast);
 
@@ -48,7 +49,17 @@ public class BreakfastServiceImpl implements BreakfastService {
     public BreakfastResponseDTO findById(Long id) {
 
         Breakfast breakfast = repository.findByIdBreakfast(id)
-                .orElseThrow(() -> new NotFoundException("Usuário não encontrado!"));
+                .orElseThrow(() -> new NotFoundException("Evento não encontrado!"));
+
+        return BreakfastMapper.toDto(breakfast);
+
+    }
+
+    @Override
+    public BreakfastResponseDTO findByDate(LocalDate date) {
+
+        Breakfast breakfast = repository.findByDateBreakfast(date)
+                .orElseThrow(() -> new NotFoundException("Evento não encontrado!"));
 
         return BreakfastMapper.toDto(breakfast);
 

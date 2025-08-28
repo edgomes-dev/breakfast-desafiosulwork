@@ -13,6 +13,8 @@ public interface ProductService {
 
     ProductResponseDTO findById(Long id);
 
+    ProductResponseDTO findByName(String name);
+
     ProductResponseDTO update(Long id, ProductRequestDTO dto);
 
     void delete(Long id);
