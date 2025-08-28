@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
             if (existUser.getCpf() != dto.getCpf()) {
                 repository.findByCpfUser(dto.getCpf())
                         .ifPresent(user -> {
-                            new BadRequestException("CPF já em uso, por outro usuário!");
+                            throw new BadRequestException("CPF já em uso, por outro usuário!");
                         });
             }
 

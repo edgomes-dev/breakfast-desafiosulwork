@@ -1,7 +1,5 @@
 package com.sulwork.breakfast.persistence.model;
 
-import org.hibernate.validator.constraints.UUID;
-
 import com.sulwork.breakfast.persistence.enuns.Role;
 
 import jakarta.persistence.Column;
@@ -24,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "users")
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -36,5 +34,5 @@ public class User {
 	public String password;
 	@Enumerated(EnumType.STRING)
 	public Role role;
-	
+
 }
