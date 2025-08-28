@@ -241,7 +241,7 @@ public class UserServiceImplUnitTest {
         assertNotNull(result);
         assertEquals(updateDto.getName(), result.getName());
         assertEquals(updateDto.getCpf(), result.getCpf());
-        verify(repository, times(2)).findByIdUser(1L);
+        verify(repository, times(1)).findByIdUser(1L);
         verify(repository, times(1)).updateUser(1L, updateDto.getName(), updateDto.getCpf());
         verify(repository, never()).findByCpfUser(anyString()); // Não deve chamar findByCpfUser
     }
@@ -264,7 +264,7 @@ public class UserServiceImplUnitTest {
         assertNotNull(result);
         assertEquals(updatedUserResponseDTO.getName(), result.getName());
         assertEquals(updatedUserResponseDTO.getCpf(), result.getCpf());
-        verify(repository, times(2)).findByIdUser(1L);
+        verify(repository, times(1)).findByIdUser(1L);
         verify(repository, times(1)).findByCpfUser(updatedUserRequestDTO.getCpf());
         verify(repository, times(1)).updateUser(1L, updatedUserRequestDTO.getName(), updatedUserRequestDTO.getCpf());
     }

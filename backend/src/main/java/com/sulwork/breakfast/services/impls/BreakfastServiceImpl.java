@@ -25,6 +25,11 @@ public class BreakfastServiceImpl implements BreakfastService {
     @Override
     public BreakfastResponseDTO create(BreakfastRequestDTO dto) {
 
+        repository.findByDateBreakfast(dto.getDate())
+                .ifPresent(product -> {
+                    throw new BadRequestException("Este evento já existe!");
+                });
+
         repository.createBreakfast(dto.getDate());
 
         Breakfast savedBreakfast = repository.findByDateBreakfast(dto.getDate())
@@ -80,10 +85,9 @@ public class BreakfastServiceImpl implements BreakfastService {
 
         repository.updateBreakfast(id, dto.getDate());
 
-        Breakfast breakfast = repository.findByIdBreakfast(id)
-                .orElseThrow(() -> new NotFoundException("Falha ao recuperar evento!"));
+        existBreakfast.setDate(dto.getDate());
 
-        return BreakfastMapper.toDto(breakfast);
+        return BreakfastMapper.toDto(existBreakfast);
 
     }
 

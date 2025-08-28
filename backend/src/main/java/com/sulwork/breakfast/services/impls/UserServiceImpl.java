@@ -91,10 +91,10 @@ public class UserServiceImpl implements UserService {
 
         repository.updateUser(id, dto.getName(), dto.getCpf());
 
-        User user = repository.findByIdUser(id)
-                .orElseThrow(() -> new NotFoundException("Falha ao recuperar usuário!"));
+        existUser.setCpf(dto.getCpf());
+        existUser.setName(dto.getName());
 
-        return UserMapper.toDto(user);
+        return UserMapper.toDto(existUser);
     }
 
     @Override

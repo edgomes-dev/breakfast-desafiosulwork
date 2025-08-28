@@ -84,10 +84,9 @@ public class ProductServiceImpl implements ProductService {
 
         repository.updateProduct(id, dto.getName());
 
-        Product product = repository.findByIdProduct(id)
-                .orElseThrow(() -> new NotFoundException("Falha ao recuperar Produto!"));
+        existProduct.setName(dto.getName());
 
-        return ProductMapper.toDto(product);
+        return ProductMapper.toDto(existProduct);
 
     }
 
