@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sulwork.breakfast.dtos.UserRequestDTO;
@@ -21,6 +22,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private PasswordEncoder encoder;
 
     private void isCpf(String cpf) {
         if (cpf == null || !cpf.matches("\\d{11}")) {
@@ -41,7 +44,7 @@ public class UserServiceImpl implements UserService {
                     throw new BadRequestException("Usuário com esse CPF já existe!");
                 });
 
-        repository.createUser(dto.getName(), dto.getCpf(), dto.getPassword(), Role.USER.name());
+        repository.createUser(dto.getName(), dto.getCpf(), encoder.encode(dto.getPassword()), Role.USER.name());
 
         User savedUser = repository.findByCpfUser(dto.getCpf())
                 .orElseThrow(() -> new RuntimeException("Falha ao recuperar usuário"));
