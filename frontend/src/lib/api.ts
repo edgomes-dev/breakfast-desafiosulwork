@@ -1,11 +1,16 @@
 import axios from 'axios'
 
 // const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'
+const token = localStorage.getItem('token');
+//if (token) {
+//  axios.defaults.headers.common['Authorization'] = token;
+//}
 
 export const api = axios.create({
-  baseURL: 'http://localhost:80808/api/v1',
+  baseURL: 'http://localhost:8080/api/v1',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + token
   },
 })
 

@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Coffee } from 'lucide-react';
 import { api } from '../lib/api';
-import { useAuth } from '../context/AuthContext';
+import axios from 'axios';
 
 
 export default function Login() {
@@ -16,9 +16,6 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
-    const location = useLocation();
-    const { login } = useAuth();
-    const from = location.state?.from?.pathname || '/';
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,16 +26,19 @@ export default function Login() {
         }
 
         setLoading(true);
-        setError('');
 
-        const res = await login(cpf, password);
-
-        if (res.success) {
-            navigate(from, { replace: true });
-        } else {
-            setError(res.error || "CPF ou Senha incorretos!")
+        try {
+            //const res = await api.post("/auth/login", { cpf, password });
+            const res = await axios.post("http://localhost:8080/api/v1/auth/login", { cpf, password });
+            console.log(res.data);
+            localStorage.setItem('token', res.data);
+            navigate("/");
+        } catch (e) {
+            setError('Credenciais inválidas!');
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-sulwork-dark-blue to-sulwork-light-blue flex items-center justify-center p-4">
@@ -57,7 +57,7 @@ export default function Login() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={(e) => handleSubmit(e)} className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="cpf">CPF</Label>
                             <Input

@@ -1,5 +1,11 @@
 HELP.md
 target/
+.env
+.git
+.gitignore
+.gitattributes
+.mvn/
+*.log
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

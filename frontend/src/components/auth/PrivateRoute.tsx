@@ -1,20 +1,20 @@
 import React from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { Navigate } from 'react-router-dom';
-import LoadingSpinner from '../common/LoadingSpinner.tsx';
+import { Navigate, Outlet } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
+import LoadingSpinner from '../common/LoadingSpinner';
 
-interface PrivateRouteProps {
-    children: React.ReactNode;
-}
+const PrivateRoute = ({ allowedRoles }) => {
+    const { isAuthenticated, userRole, isLoading } = useAuth();
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
-    const { isAuthenticated, loading } = useAuth();
-
-    if (loading) {
+    if (isLoading) {
         return <LoadingSpinner />;
     }
 
-    return isAuthenticated() ? <>{children}</> : <Navigate to="/login" />;
+    if (isAuthenticated) {
+        return <Outlet />;
+    } else {
+        return <Navigate to="/login" replace />;
+    }
 };
 
 export default PrivateRoute;

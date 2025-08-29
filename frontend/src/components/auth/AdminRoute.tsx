@@ -1,28 +1,27 @@
 import React from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 import LoadingSpinner from '../common/LoadingSpinner';
 
-interface AdminRouteProps {
-    children: React.ReactNode;
-}
+const AdminRoute = ({ allowedRoles }) => {
+    const { isAuthenticated, userRole, isLoading } = useAuth();
 
-const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
-    const { isAuthenticated, isAdmin, loading } = useAuth();
-
-    if (loading) {
+    if (isLoading) {
         return <LoadingSpinner />;
     }
 
-    if (!isAuthenticated()) {
-        return <Navigate to="/login" />;
+    // Se o usuário está autenticado
+    if (isAuthenticated) {
+        if (allowedRoles.includes(userRole) == "ADMIN") {
+            return <Outlet />;
+        } else {
+            // Se não tem permissão, redireciona para a home
+            return <Navigate to="/home" replace />;
+        }
+    } else {
+        // Se não está autenticado, redireciona para o login
+        return <Navigate to="/login" replace />;
     }
-
-    if (!isAdmin()) {
-        return <Navigate to="/home" />;
-    }
-
-    return <>{children}</>;
 };
 
 export default AdminRoute;
