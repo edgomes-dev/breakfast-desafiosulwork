@@ -80,20 +80,15 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    /**
-     * Valida um token JWT.
-     * 
-     * @param authToken O token JWT a ser validado.
-     * @return true se o token for válido, false caso contrário.
-     */
-    public boolean validateToken(String authToken) {
+    public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(authToken);
+            Jwts.parserBuilder()
+                    .setSigningKey(jwtSecret)
+                    .build()
+                    .parseClaimsJws(token);
             return true;
-        } catch (MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
-            // Em um ambiente de produção, você deve logar estas exceções.
-            // Para depuração, o console pode mostrar o erro.
+        } catch (Exception e) {
+            return false;
         }
-        return false;
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,5 +46,24 @@ public class AuthController {
     public ResponseEntity<String> registerUser(@RequestBody UserRequestDTO dto) {
         service.create(dto);
         return new ResponseEntity<>("Usuário registrado com sucesso!", HttpStatus.CREATED);
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<Boolean> validateToken(
+            @RequestHeader("Authorization") String authorizationHeader) {
+
+        try {
+            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+                return ResponseEntity.ok(false);
+            }
+
+            String token = authorizationHeader.substring(7);
+            boolean isValid = tokenProvider.validateToken(token);
+
+            return ResponseEntity.ok(isValid);
+
+        } catch (Exception e) {
+            return ResponseEntity.ok(false);
+        }
     }
 }
